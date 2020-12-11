@@ -1,0 +1,93 @@
+Style/Documentation:
+  Enabled: false
+
+Layout/SpaceBeforeFirstArg:
+  Exclude:
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - spec/**/*
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Metrics/AbcSize:
+  # The ABC size is a calculated magnitude, so this number can be an Integer or
+  # a Float.
+  Max: 15
+
+Metrics/BlockLength:
+  CountComments: false
+  Max: 25
+  Exclude:
+    - '*.gemspec'
+    - config/**/*
+    - spec/**/*
+  ExcludedMethods:
+    - class_methods
+
+Metrics/BlockNesting:
+  Max: 4
+
+Metrics/ClassLength:
+  CountComments: false
+  Max: 200
+
+# Avoid complex methods.
+Metrics/CyclomaticComplexity:
+  Max: 7
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 24
+
+Metrics/ModuleLength:
+  CountComments: false
+  Max: 200
+
+Layout/LineLength:
+  Max: 100
+  # To make it possible to copy or click on URIs in the code, we allow lines
+  # containing a URI to be longer than Max.
+  AllowURI: true
+  URISchemes:
+    - http
+    - https
+
+Metrics/ParameterLists:
+  Max: 5
+  CountKeywordArgs: true
+
+Metrics/PerceivedComplexity:
+  Max: 12
+
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Style/ModuleFunction:
+  Enabled: false
+
+Style/RescueModifier:
+  Exclude:
+    - spec/**/*
+
+Naming/PredicateName:
+  Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
