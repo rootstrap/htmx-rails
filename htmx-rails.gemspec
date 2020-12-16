@@ -1,11 +1,10 @@
-require_relative 'lib/htmx/rails/version'
+require_relative 'lib/htmx_rails/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'htmx-rails'
-  spec.version       = Htmx::Rails::VERSION
+  spec.version       = HtmxRails::Base::VERSION
   spec.authors       = ['Julian Pasquale']
   spec.email         = ['julianagustin78@gmail.com']
-
   spec.summary       = ''
   spec.description   = ''
   spec.homepage      = 'https://github.com/rootstrap/htmx-rails'
@@ -20,14 +19,14 @@ Gem::Specification.new do |spec|
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
-  spec.files = Dir['LICENSE.txt', 'README.md', '{lib,vendor}/**/*']
+  spec.files = Dir['LICENSE.txt', 'README.md', 'lib/**/*']
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
   spec.add_dependency 'rails'
-  spec.add_dependency 'railties'
 
+  spec.add_development_dependency 'generator_spec'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'reek'
   spec.add_development_dependency 'rspec'
