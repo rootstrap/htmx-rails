@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Htmx
+module HtmxRails
   module Generators
     class InstallGenerator < ::Rails::Generators::Base
       WEBPACKER_SETUP = 'require(\'htmx.org\')'
