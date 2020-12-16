@@ -7,7 +7,10 @@
 /spec/reports/
 /tmp/
 
+Gemfile.lock
+
 # rspec failure tracking
 .rspec_status
 
-Gemfile.lock
+# tests output
+spec/tmp/
