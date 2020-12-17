@@ -3,8 +3,8 @@
 module HtmxRails
   module Generators
     class InstallGenerator < ::Rails::Generators::Base
-      WEBPACKER_SETUP = 'require(\'htmx.org\')'
-      SPROCKETS_SETUP = '//= require htmx'
+      WEBPACKER_SETUP = "require('htmx.org')\n"
+      SPROCKETS_SETUP = "//= require htmx\n"
 
       desc 'Prep application.js to include HTMX installation for Webpacker or Sprockets'
 
@@ -31,7 +31,7 @@ module HtmxRails
         manifest = manifest('app/assets/javascripts')
 
         if manifest.exist?
-          append_file manifest, SPROCKETS_SETUP
+          append_file manifest, "\n#{SPROCKETS_SETUP}"
         else
           create_file manifest, SPROCKETS_SETUP
         end
@@ -43,7 +43,7 @@ module HtmxRails
         manifest = manifest(webpack_source_path)
 
         if manifest.exist?
-          append_file(manifest, WEBPACKER_SETUP)
+          append_file(manifest, "\n#{WEBPACKER_SETUP}")
         else
           create_file(manifest, WEBPACKER_SETUP)
         end
