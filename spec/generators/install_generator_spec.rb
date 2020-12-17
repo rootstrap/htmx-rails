@@ -5,44 +5,67 @@ require 'spec_helper'
 RSpec.describe HtmxRails::Generators::InstallGenerator, type: :generator do
   destination File.expand_path('../tmp', __dir__)
 
+  let!(:generate_files) {}
+
+  before(:each) do
+    prepare_destination
+    generate_files
+  end
+
+  def generate_application_js(location_folder)
+    pathname = File.join([destination_root, location_folder])
+    FileUtils.mkdir_p(pathname)
+    File.write("#{pathname}/application.js", '')
+  end
+
   context 'with Sprockets' do
-    context 'when application.js exists' do
-      before(:each) do
-        prepare_destination
-        FileUtils.mkdir_p("#{destination_root}/app/assets/javascripts/")
-        File.write("#{destination_root}/app/assets/javascripts/application.js", '')
-        run_generator
+    before(:each) do
+      run_generator
+    end
+
+    context 'when `application.js` exists' do
+      let!(:generate_files) do
+        generate_application_js('/app/assets/javascripts')
       end
 
-      it 'creates application.js file' do
-        assert_file 'app/assets/javascripts/application.js', '//= require htmx'
+      it 'creates `application.js` file with htmx require' do
+        assert_file 'app/assets/javascripts/application.js', HtmxRails::Generators::InstallGenerator::SPROCKETS_SETUP
       end
     end
 
-    context 'when application.js does not exists' do
-      before(:each) do
-        prepare_destination
-        run_generator
-      end
-
-      it 'updates application.js file' do
-        assert_file 'app/assets/javascripts/application.js', '//= require htmx'
+    context 'when `application.js` does not exists' do
+      it 'updates file with htmx require' do
+        assert_file 'app/assets/javascripts/application.js', HtmxRails::Generators::InstallGenerator::SPROCKETS_SETUP
       end
     end
   end
 
-  # context 'with Webpacker' do
-  #   context 'with no arguments' do
-  #     before(:each) do
-  #       allow(::Rails).to receive(:version) { '3.1.0' }
-  #       prepare_destination
-  #       run_generator
-  #     end
+  context 'with Webpacker' do
+    before(:each) do
+      stub_const('Webpacker', Module.new)
 
-  #     it 'does not copy cocoon.js' do
-  #       assert_no_file 'public/javascripts/cocoon.js'
-  #     end
-  #   end
-  # end
+      HtmxRails::Generators::InstallGenerator
+        .any_instance
+        .stub(:webpack_source_path)
+        .and_return(File.join("#{destination_root}/app/javascript/packs"))
 
+      run_generator
+    end
+
+    context 'when `application.js` exists' do
+      it 'creates `application.js` file with htmx require' do
+        assert_file 'app/javascript/packs/application.js', HtmxRails::Generators::InstallGenerator::WEBPACKER_SETUP
+      end
+    end
+
+    context 'when `application.js` does not exists' do
+      let!(:generate_files) do
+        generate_application_js('/app/javascript')
+      end
+
+      it 'updates `application.js` file with htmx require' do
+        assert_file 'app/javascript/packs/application.js', HtmxRails::Generators::InstallGenerator::WEBPACKER_SETUP
+      end
+    end
+  end
 end
