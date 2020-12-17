@@ -23,21 +23,13 @@ module HtmxRails
         !!defined?(Webpacker)
       end
 
-      def javascript_dir
-        if webpacker?
-          webpack_source_path
-            .relative_path_from(::Rails.root)
-            .to_s
-        else
-          'app/assets/javascripts'
-        end
-      end
-
-      def manifest
+      def manifest(javascript_dir)
         Pathname.new(destination_root).join(javascript_dir, 'application.js')
       end
 
       def setup_sprockets
+        manifest = manifest('app/assets/javascripts')
+
         if manifest.exist?
           append_file manifest, SPROCKETS_SETUP
         else
@@ -47,6 +39,9 @@ module HtmxRails
 
       def setup_webpacker
         `yarn add htmx.org`
+
+        manifest = manifest(webpack_source_path)
+
         if manifest.exist?
           append_file(manifest, WEBPACKER_SETUP)
         else
@@ -59,7 +54,7 @@ module HtmxRails
           Webpacker.config.source_entry_path # Webpacker >3
         else
           Webpacker::Configuration.source_path.join(Webpacker::Configuration.entry_path) # Webpacker <3
-        end
+        end.relative_path_from(::Rails.root).to_s
       end
     end
   end
