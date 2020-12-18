@@ -50,13 +50,11 @@ module HtmxRails
       end
 
       def webpack_source_path
-        if Webpacker.respond_to?(:config)
-          # Webpacker >3
-          Webpacker.config.source_entry_path
-        else
-          # Webpacker <3
-          Webpacker::Configuration.source_path.join(Webpacker::Configuration.entry_path)
-        end.relative_path_from(::Rails.root).to_s
+        (Webpacker.try(:config).try(:source_entry_path) ||
+          Webpacker::Configuration.source_path.join(
+            Webpacker::Configuration.entry_path
+          )
+        ).relative_path_from(::Rails.root).to_s
       end
     end
   end
