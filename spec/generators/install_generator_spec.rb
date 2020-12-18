@@ -12,6 +12,8 @@ RSpec.describe HtmxRails::Generators::InstallGenerator, type: :generator do
     generate_files
   end
 
+  after(:all) { FileUtils.rm_rf destination_root }
+
   def generate_application_js(location_folder)
     pathname = File.join([destination_root, location_folder])
     FileUtils.mkdir_p(pathname)
