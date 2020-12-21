@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe HtmxRails::Generators::InstallGenerator, type: :generator do
+RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
   destination File.expand_path('../tmp', __dir__)
 
   let!(:generate_files) {}
@@ -33,7 +33,7 @@ RSpec.describe HtmxRails::Generators::InstallGenerator, type: :generator do
       it 'creates `application.js` file with htmx require' do
         assert_file(
           'app/assets/javascripts/application.js',
-          HtmxRails::Generators::InstallGenerator::SPROCKETS_SETUP
+          Htmx::Generators::InstallGenerator::SPROCKETS_SETUP
         )
       end
     end
@@ -42,7 +42,7 @@ RSpec.describe HtmxRails::Generators::InstallGenerator, type: :generator do
       it 'updates file with htmx require' do
         assert_file(
           'app/assets/javascripts/application.js',
-          HtmxRails::Generators::InstallGenerator::SPROCKETS_SETUP
+          Htmx::Generators::InstallGenerator::SPROCKETS_SETUP
         )
       end
     end
@@ -52,7 +52,7 @@ RSpec.describe HtmxRails::Generators::InstallGenerator, type: :generator do
     before(:each) do
       stub_const('Webpacker', Module.new)
 
-      HtmxRails::Generators::InstallGenerator
+      Htmx::Generators::InstallGenerator
         .any_instance
         .stub(:webpack_source_path)
         .and_return(File.join("#{destination_root}/app/javascript/packs"))
@@ -64,7 +64,7 @@ RSpec.describe HtmxRails::Generators::InstallGenerator, type: :generator do
       it 'creates `application.js` file with htmx require' do
         assert_file(
           'app/javascript/packs/application.js',
-          HtmxRails::Generators::InstallGenerator::WEBPACKER_SETUP
+          Htmx::Generators::InstallGenerator::WEBPACKER_SETUP
         )
       end
     end
@@ -77,7 +77,7 @@ RSpec.describe HtmxRails::Generators::InstallGenerator, type: :generator do
       it 'updates `application.js` file with htmx require' do
         assert_file(
           'app/javascript/packs/application.js',
-          HtmxRails::Generators::InstallGenerator::WEBPACKER_SETUP
+          Htmx::Generators::InstallGenerator::WEBPACKER_SETUP
         )
       end
     end

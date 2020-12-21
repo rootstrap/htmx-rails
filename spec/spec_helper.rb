@@ -2,7 +2,7 @@
 
 require 'bundler/setup'
 require 'generator_spec'
-require 'htmx_rails'
+require 'htmx-rails'
 require 'simplecov'
 
 SimpleCov.start do

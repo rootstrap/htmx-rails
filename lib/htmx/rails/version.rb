@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module HtmxRails
-  module Base
+module Htmx
+  module Rails
     VERSION = '0.0.0'
     HTMX_VERSION = '1.0.2'
   end

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'lib/htmx_rails/version'
+require_relative 'lib/htmx/rails/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'htmx-rails'
-  spec.version       = HtmxRails::Base::VERSION
+  spec.version       = Htmx::Rails::VERSION
   spec.authors       = ['Julian Pasquale']
   spec.email         = ['julian.pasquale@rootstrap.com']
   spec.summary       = 'Ruby gem for use HTMX in Rails applications'
