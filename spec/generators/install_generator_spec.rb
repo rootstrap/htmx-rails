@@ -3,6 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
+  include Support::FilesHelper
+
   destination File.expand_path('../tmp', __dir__)
 
   let!(:generate_files) {}
@@ -13,12 +15,6 @@ RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
   end
 
   after(:all) { FileUtils.rm_rf destination_root }
-
-  def generate_application_js(location_folder)
-    pathname = File.join([destination_root, location_folder])
-    FileUtils.mkdir_p(pathname)
-    File.write("#{pathname}/application.js", '')
-  end
 
   context 'with Sprockets' do
     before(:each) do

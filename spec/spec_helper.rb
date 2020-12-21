@@ -5,6 +5,9 @@ require 'generator_spec'
 require 'htmx-rails'
 require 'simplecov'
 
+# Support files
+require 'support/files_helper'
+
 SimpleCov.start do
   add_filter '/spec/'
 end
