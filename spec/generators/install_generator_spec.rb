@@ -7,35 +7,30 @@ RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
 
   destination File.expand_path('../tmp', __dir__)
 
-  let!(:generate_files) {}
-
-  before(:each) do
+  before do
     prepare_destination
-    generate_files
   end
 
   after(:all) { FileUtils.rm_rf destination_root }
 
   context 'with Sprockets' do
-    before(:each) do
-      run_generator
-    end
-
     context 'when `application.js` exists' do
-      let!(:generate_files) do
+      before do
         generate_application_js('/app/assets/javascripts')
       end
 
-      it 'creates `application.js` file with htmx require' do
+      it 'updates file with htmx require' do
+        run_generator
         assert_file(
           'app/assets/javascripts/application.js',
-          Htmx::Generators::InstallGenerator::SPROCKETS_SETUP
+          "\n#{Htmx::Generators::InstallGenerator::SPROCKETS_SETUP}"
         )
       end
     end
 
     context 'when `application.js` does not exists' do
-      it 'updates file with htmx require' do
+      it 'creates `application.js` file with htmx require' do
+        run_generator
         assert_file(
           'app/assets/javascripts/application.js',
           Htmx::Generators::InstallGenerator::SPROCKETS_SETUP
@@ -45,19 +40,22 @@ RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
   end
 
   context 'with Webpacker' do
-    before(:each) do
+    before do
       stub_const('Webpacker', Module.new)
 
       Htmx::Generators::InstallGenerator
         .any_instance
         .stub(:webpack_source_path)
         .and_return(File.join("#{destination_root}/app/javascript/packs"))
-
-      run_generator
     end
 
     context 'when `application.js` exists' do
-      it 'creates `application.js` file with htmx require' do
+      before do
+        generate_application_js('/app/javascript')
+      end
+
+      it 'updates `application.js` file with htmx require' do
+        run_generator
         assert_file(
           'app/javascript/packs/application.js',
           Htmx::Generators::InstallGenerator::WEBPACKER_SETUP
@@ -66,11 +64,8 @@ RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
     end
 
     context 'when `application.js` does not exists' do
-      let!(:generate_files) do
-        generate_application_js('/app/javascript')
-      end
-
-      it 'updates `application.js` file with htmx require' do
+      it 'creates `application.js` file with htmx require' do
+        run_generator
         assert_file(
           'app/javascript/packs/application.js',
           Htmx::Generators::InstallGenerator::WEBPACKER_SETUP
