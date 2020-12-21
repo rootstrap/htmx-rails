@@ -86,6 +86,10 @@ Style/RescueModifier:
 Naming/PredicateName:
   Enabled: false
 
+Naming/FileName:
+  Exclude:
+    - lib/htmx-rails.rb
+
 Style/HashEachMethods:
   Enabled: true
 
