@@ -26,7 +26,7 @@ jobs:
         chmod +x ./cc-test-reporter
         ./cc-test-reporter before-build
       env:
-        CC_TEST_REPORTER_ID: get_a_test_reporter_id_from_code_climate
+        CC_TEST_REPORTER_ID: 903dc1a761aaec438bc9f39467e2cb4a2ea332bdb65241b37abef6338c5e6326
     - name: Install and config bundler
       run: |
         gem install bundler:1.17.3
@@ -51,4 +51,4 @@ jobs:
       run: |
         ./cc-test-reporter after-build --exit-code 0
       env:
-        CC_TEST_REPORTER_ID: get_a_test_reporter_id_from_code_climate
+        CC_TEST_REPORTER_ID: 903dc1a761aaec438bc9f39467e2cb4a2ea332bdb65241b37abef6338c5e6326
