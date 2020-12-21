@@ -20,7 +20,7 @@ Or install it yourself as:
 
 After installing the gem, run the installer:
 
-    $ rails g htmx_rails:install
+    $ rails g htmx:install
 
 ## Usage
 
