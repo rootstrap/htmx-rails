@@ -1,12 +1,10 @@
 # Htmx::Rails
 
-[HTMX](https://htmx.org/) ruby gem for Ruby on Rails (Sprockets).
-
-**Ruby on Rails 6 Note:** With the release of Rails 6, by default Sprockets no longer processes JavaScript and instead Webpack is set as the default. This gem is for use with Sprockets not Webpack.
+[HTMX](https://htmx.org/) ruby gem for Ruby on Rails.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add `htmx-rails` to your `Gemfile`:
 
 ```ruby
 gem 'htmx-rails'
@@ -20,11 +18,10 @@ Or install it yourself as:
 
     $ gem install htmx-rails
 
-After installing the gem, add this to your `app/assets/javascripts/application.js`:
+After installing the gem, run the installer:
 
-```js
-//= require htmx
-```
+    $ rails g htmx:install
+
 ## Usage
 
 TODO: Write usage instructions here
