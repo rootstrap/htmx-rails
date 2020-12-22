@@ -2,15 +2,16 @@
 
 require 'bundler/setup'
 require 'generator_spec'
-require 'htmx-rails'
 require 'simplecov'
-
-# Support files
-require 'support/files_helper'
 
 SimpleCov.start do
   add_filter '/spec/'
 end
+
+require 'htmx-rails'
+
+# Support files
+require 'support/files_helper'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
