@@ -13,4 +13,7 @@ Gemfile.lock
 .rspec_status
 
 # tests output
+node_modules/
+package.json
 spec/tmp/
+yarn.lock
