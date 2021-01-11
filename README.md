@@ -24,7 +24,15 @@ After installing the gem, run the installer:
 
 ## Usage
 
-TODO: Write usage instructions here
+
+```HTML
+<!-- have a button POST via AJAX -->
+<button hx-post="/clicked" hx-swap="outerHTML">
+  Click Me
+</button>
+```
+
+### Read the [docs](https://htmx.org/docs/) for a more in-depth introduction.
 
 ## Development
 
