@@ -1,54 +1,18 @@
 name: ci
 
 on: [push, pull_request]
-
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  test:
     strategy:
+      fail-fast: false
       matrix:
-        ruby_version: [2.5.x, 2.6.x, 2.7.x]
-
+        os: [ubuntu-latest, macos-latest]
+        ruby: ['2.7', '3.0', '3.1', head, jruby, jruby-head, truffleruby, truffleruby-head]
+    runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: actions/setup-ruby@v1
+    - uses: actions/checkout@v3
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: ${{ matrix.ruby_version }}
-    - name: Calculate variable dynamic values
-      id: dynamic_values
-      run: |
-        echo "::set-output name=installed_ruby_version::$(ruby -e 'print RUBY_VERSION')"
-        echo "::set-output name=cacheTimeAnchor::$(ruby -e 'require %Q{date}; cacheExpirationSeconds = 60*60*24; print (Time.now.to_i / cacheExpirationSeconds)')"
-    - name: Download CodeClimate reporter
-      run: |
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        chmod +x ./cc-test-reporter
-        ./cc-test-reporter before-build
-      env:
-        CC_TEST_REPORTER_ID: 903dc1a761aaec438bc9f39467e2cb4a2ea332bdb65241b37abef6338c5e6326
-    - name: Install and config bundler
-      run: |
-        gem install bundler:2.1.4
-    - name: Generate 'Gemfile.lock' before caching gems
-      run: |
-        bundle lock --update
-    - uses: actions/cache@v2
-      with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-ruby_v${{ steps.dynamic_values.outputs.installed_ruby_version }}-time_${{steps.dynamic_values.outputs.cacheTimeAnchor}}-gems-${{ hashFiles('**/Gemfile.lock') }}
-    - name: Install dependencies
-      run: |
-        bundle config set path 'vendor/bundle'
-        bundle install --jobs 4 --retry 3
-    - name: Run code analysis
-      run: |
-        bundle exec rake code_analysis
-    - name: Run tests
-      run: |
-        bundle exec rspec
-    - name: Report to CodeClimate
-      run: |
-        ./cc-test-reporter after-build --exit-code 0
-      env:
-        CC_TEST_REPORTER_ID: 903dc1a761aaec438bc9f39467e2cb4a2ea332bdb65241b37abef6338c5e6326
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - run: bundle exec rspec
