@@ -63,7 +63,7 @@ module Htmx
       end
 
       def setup_webpacker
-        `yarn add htmx.org`
+        run 'yarn add htmx.org'
 
         manifest = manifest(webpack_source_path)
 
