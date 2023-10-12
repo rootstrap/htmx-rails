@@ -14,6 +14,12 @@ RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
   after(:all) { FileUtils.rm_rf destination_root }
 
   context 'with Sprockets' do
+    before do
+      hide_const('Webpacker')
+      hide_const('Importmap')
+      stub_const('Sprockets', Module.new)
+    end
+
     context 'when `application.js` exists' do
       before do
         generate_application_js('/app/assets/javascripts')
@@ -42,6 +48,8 @@ RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
   context 'with Webpacker' do
     before do
       stub_const('Webpacker', Module.new)
+      hide_const('Sprockets')
+      hide_const('Importmap')
 
       Htmx::Generators::InstallGenerator
         .any_instance
@@ -71,6 +79,50 @@ RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
           Htmx::Generators::InstallGenerator::WEBPACKER_SETUP
         )
       end
+    end
+  end
+
+  context 'with Importmap' do
+    before do
+      hide_const('Webpacker')
+      hide_const('Sprockets')
+      stub_const('Importmap', Module.new)
+    end
+
+    context 'when `application.js` exists' do
+      before do
+        generate_application_js('/app/javascript')
+      end
+
+      it 'updates file with htmx import' do
+        run_generator
+        assert_file(
+          'app/javascript/application.js',
+          "\n#{Htmx::Generators::InstallGenerator::IMPORTMAP_SETUP}"
+        )
+      end
+    end
+
+    context 'when `application.js` does not exists' do
+      it 'creates `application.js` file with htmx import' do
+        run_generator
+        assert_file(
+          'app/javascript/application.js',
+          Htmx::Generators::InstallGenerator::IMPORTMAP_SETUP
+        )
+      end
+    end
+  end
+
+  context 'with no asset pipeline' do
+    before do
+      hide_const('Webpacker')
+      hide_const('Sprockets')
+      hide_const('Importmap')
+    end
+
+    it 'raise an error' do
+      expect { run_generator }.to raise_error('No known asset pipeline detected')
     end
   end
 end
