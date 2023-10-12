@@ -51,9 +51,9 @@ RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
       hide_const('Sprockets')
       hide_const('Importmap')
 
-      Htmx::Generators::InstallGenerator
-        .any_instance
-        .stub(:webpack_source_path)
+      expect_any_instance_of(Htmx::Generators::InstallGenerator)
+        .to receive(:webpack_source_path)
+        .at_least(1).time
         .and_return(File.join("#{destination_root}/app/javascript/packs"))
     end
 
