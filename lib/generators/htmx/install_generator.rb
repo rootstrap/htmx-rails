@@ -7,7 +7,7 @@ module Htmx
       SPROCKETS_SETUP = "//= require htmx\n"
       IMPORTMAP_SETUP = "import \"htmx.org\"\n"
 
-      desc 'Prep application.js to include HTMX installation for Webpacker or Sprockets'
+      desc 'Prep application.js to include HTMX installation for Webpacker, Sprockets or Importmap'
 
       # Setup HTMX
       def setup
