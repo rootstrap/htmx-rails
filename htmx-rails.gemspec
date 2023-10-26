@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
 
   # Development dependencies.
   spec.add_development_dependency 'generator_spec'
+  spec.add_development_dependency 'psych', '>= 5.1.1.1' # pinned due to https://github.com/ruby/psych/issues/655
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'reek'
   spec.add_development_dependency 'rspec'

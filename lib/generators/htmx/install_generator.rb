@@ -5,15 +5,20 @@ module Htmx
     class InstallGenerator < ::Rails::Generators::Base
       WEBPACKER_SETUP = "require('htmx.org')\n"
       SPROCKETS_SETUP = "//= require htmx\n"
+      IMPORTMAP_SETUP = "import \"htmx.org\"\n"
 
-      desc 'Prep application.js to include HTMX installation for Webpacker or Sprockets'
+      desc 'Prep application.js to include HTMX installation for Webpacker, Sprockets or Importmap'
 
       # Setup HTMX
       def setup
-        if webpacker?
+        if importmap?
+          setup_importmap
+        elsif webpacker?
           setup_webpacker
-        else
+        elsif sprockets?
           setup_sprockets
+        else
+          raise 'No known asset pipeline detected'
         end
       end
 
@@ -23,8 +28,28 @@ module Htmx
         !!defined?(Webpacker)
       end
 
+      def sprockets?
+        !!defined?(Sprockets)
+      end
+
+      def importmap?
+        !!defined?(Importmap)
+      end
+
       def manifest(javascript_dir)
         Pathname.new(destination_root).join(javascript_dir, 'application.js')
+      end
+
+      def setup_importmap
+        run 'bin/importmap pin htmx.org'
+
+        manifest = manifest('app/javascript')
+
+        if manifest.exist?
+          append_file manifest, "\n#{IMPORTMAP_SETUP}"
+        else
+          create_file manifest, IMPORTMAP_SETUP
+        end
       end
 
       def setup_sprockets
@@ -38,7 +63,7 @@ module Htmx
       end
 
       def setup_webpacker
-        `yarn add htmx.org`
+        run 'yarn add htmx.org'
 
         manifest = manifest(webpack_source_path)
 
