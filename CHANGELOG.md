@@ -21,6 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.0] - 2021-01-11
 
+### Added
+
+- Introduce installation generator (support for Sprokets and Webpacker)
+- Simple example on README usage section
+
 ## [0.0.0] - 2020-12-11
 
 ### Added
