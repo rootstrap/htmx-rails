@@ -11,7 +11,9 @@ module Htmx
 
       # Setup HTMX
       def setup
-        if importmap?
+        if bun_configured?
+          setup_bun
+        elsif importmap?
           setup_importmap
         elsif webpacker?
           setup_webpacker
@@ -23,6 +25,10 @@ module Htmx
       end
 
       private
+
+      def bun_configured?
+        Pathname.new(destination_root).join('bun.config.js').exist?
+      end
 
       def webpacker?
         !!defined?(Webpacker)
@@ -40,38 +46,34 @@ module Htmx
         Pathname.new(destination_root).join(javascript_dir, 'application.js')
       end
 
-      def setup_importmap
-        run 'bin/importmap pin htmx.org'
-
-        manifest = manifest('app/javascript')
-
+      def add_to_manifest(manifest, text)
         if manifest.exist?
-          append_file manifest, "\n#{IMPORTMAP_SETUP}"
+          append_file manifest, "\n#{text}"
         else
-          create_file manifest, IMPORTMAP_SETUP
+          create_file manifest, text
         end
       end
 
-      def setup_sprockets
-        manifest = manifest('app/assets/javascripts')
+      def setup_bun
+        run 'bun add htmx.org'
 
-        if manifest.exist?
-          append_file manifest, "\n#{SPROCKETS_SETUP}"
-        else
-          create_file manifest, SPROCKETS_SETUP
-        end
+        add_to_manifest(manifest('app/javascript'), IMPORTMAP_SETUP)
+      end
+
+      def setup_importmap
+        run 'bin/importmap pin htmx.org'
+
+        add_to_manifest(manifest('app/javascript'), IMPORTMAP_SETUP)
+      end
+
+      def setup_sprockets
+        add_to_manifest(manifest('app/assets/javascripts'), SPROCKETS_SETUP)
       end
 
       def setup_webpacker
         run 'yarn add htmx.org'
 
-        manifest = manifest(webpack_source_path)
-
-        if manifest.exist?
-          append_file(manifest, "\n#{WEBPACKER_SETUP}")
-        else
-          create_file(manifest, WEBPACKER_SETUP)
-        end
+        add_to_manifest(manifest(webpack_source_path), WEBPACKER_SETUP)
       end
 
       def webpack_source_path
