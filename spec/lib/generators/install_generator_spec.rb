@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
+RSpec.describe Htmx::Generators::InstallGenerator do
   include Support::FilesHelper
 
   destination File.expand_path('../tmp', __dir__)
@@ -29,7 +29,7 @@ RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
         run_generator
         assert_file(
           'app/assets/javascripts/application.js',
-          "\n#{Htmx::Generators::InstallGenerator::SPROCKETS_SETUP}"
+          "\n#{described_class::SPROCKETS_SETUP}"
         )
       end
     end
@@ -39,7 +39,7 @@ RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
         run_generator
         assert_file(
           'app/assets/javascripts/application.js',
-          Htmx::Generators::InstallGenerator::SPROCKETS_SETUP
+          described_class::SPROCKETS_SETUP
         )
       end
     end
@@ -51,9 +51,8 @@ RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
       hide_const('Sprockets')
       hide_const('Importmap')
 
-      expect_any_instance_of(Htmx::Generators::InstallGenerator)
+      allow_any_instance_of(described_class)
         .to receive(:webpack_source_path)
-        .at_least(1).time
         .and_return(File.join("#{destination_root}/app/javascript/packs"))
     end
 
@@ -66,7 +65,7 @@ RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
         run_generator
         assert_file(
           'app/javascript/packs/application.js',
-          Htmx::Generators::InstallGenerator::WEBPACKER_SETUP
+          described_class::WEBPACKER_SETUP
         )
       end
     end
@@ -76,7 +75,7 @@ RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
         run_generator
         assert_file(
           'app/javascript/packs/application.js',
-          Htmx::Generators::InstallGenerator::WEBPACKER_SETUP
+          described_class::WEBPACKER_SETUP
         )
       end
     end
