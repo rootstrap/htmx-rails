@@ -11,7 +11,7 @@ module Htmx
 
       # Setup HTMX
       def setup
-        if bun_configured?
+        if bun?
           setup_bun
         elsif importmap?
           setup_importmap
@@ -26,7 +26,7 @@ module Htmx
 
       private
 
-      def bun_configured?
+      def bun?
         Pathname.new(destination_root).join('bun.config.js').exist?
       end
 
