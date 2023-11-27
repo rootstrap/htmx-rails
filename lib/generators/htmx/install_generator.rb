@@ -55,7 +55,7 @@ module Htmx
       end
 
       def setup_bun
-        run 'bun add htmx.org'
+        run "bun add htmx.org@#{Htmx::Rails::HTMX_VERSION}"
 
         add_to_manifest(manifest('app/javascript'), IMPORTMAP_SETUP)
       end
