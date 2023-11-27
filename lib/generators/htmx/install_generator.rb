@@ -6,6 +6,7 @@ module Htmx
       WEBPACKER_SETUP = "require('htmx.org')\n"
       SPROCKETS_SETUP = "//= require htmx\n"
       IMPORTMAP_SETUP = "import \"htmx.org\"\n"
+      BUN_SETUP       = IMPORTMAP_SETUP
 
       desc 'Prep application.js to include HTMX installation for Webpacker, Sprockets or Importmap'
 
@@ -57,7 +58,7 @@ module Htmx
       def setup_bun
         run "bun add htmx.org@#{Htmx::Rails::HTMX_VERSION}"
 
-        add_to_manifest(manifest('app/javascript'), IMPORTMAP_SETUP)
+        add_to_manifest(manifest('app/javascript'), BUN_SETUP)
       end
 
       def setup_importmap
