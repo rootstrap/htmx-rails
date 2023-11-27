@@ -61,7 +61,7 @@ module Htmx
       end
 
       def setup_importmap
-        run 'bin/importmap pin htmx.org'
+        run "bin/importmap pin htmx.org#{Htmx::Rails::HTMX_VERSION}"
 
         add_to_manifest(manifest('app/javascript'), IMPORTMAP_SETUP)
       end
@@ -71,7 +71,7 @@ module Htmx
       end
 
       def setup_webpacker
-        run 'yarn add htmx.org'
+        run "yarn add htmx.org#{Htmx::Rails::HTMX_VERSION}"
 
         add_to_manifest(manifest(webpack_source_path), WEBPACKER_SETUP)
       end
