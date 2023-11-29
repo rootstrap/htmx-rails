@@ -12,17 +12,12 @@ module Htmx
 
       # Setup HTMX
       def setup
-        if bun?
-          setup_bun
-        elsif importmap?
-          setup_importmap
-        elsif webpacker?
-          setup_webpacker
-        elsif sprockets?
-          setup_sprockets
-        else
-          raise 'No known asset pipeline detected'
-        end
+        return setup_bun if bun?
+        return setup_importmap if importmap?
+        return setup_webpacker if webpacker?
+        return setup_sprockets if sprockets?
+
+        raise 'No known asset pipeline detected.'
       end
 
       private
@@ -62,7 +57,7 @@ module Htmx
       end
 
       def setup_importmap
-        run "bin/importmap pin htmx.org#{Htmx::Rails::HTMX_VERSION}"
+        run "bin/importmap pin htmx.org@#{Htmx::Rails::HTMX_VERSION}"
 
         add_to_manifest(manifest('app/javascript'), IMPORTMAP_SETUP)
       end
@@ -72,7 +67,7 @@ module Htmx
       end
 
       def setup_webpacker
-        run "yarn add htmx.org#{Htmx::Rails::HTMX_VERSION}"
+        run "yarn add htmx.org@#{Htmx::Rails::HTMX_VERSION}"
 
         add_to_manifest(manifest(webpack_source_path), WEBPACKER_SETUP)
       end
