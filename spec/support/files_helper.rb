@@ -7,5 +7,10 @@ module Support
       FileUtils.mkdir_p(pathname)
       File.write("#{pathname}/application.js", '')
     end
+
+    def generate_bun_config
+      FileUtils.mkdir_p(destination_root)
+      File.write("#{destination_root}/bun.config.js", "// Some JS\n")
+    end
   end
 end

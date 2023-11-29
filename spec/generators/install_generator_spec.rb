@@ -114,6 +114,36 @@ RSpec.describe Htmx::Generators::InstallGenerator, type: :generator do
     end
   end
 
+  context 'with bun configured' do
+    before do
+      generate_bun_config
+    end
+
+    context 'when `application.js` exists' do
+      before do
+        generate_application_js('/app/javascript')
+      end
+
+      it 'updates file with htmx import' do
+        run_generator
+        assert_file(
+          'app/javascript/application.js',
+          "\n#{Htmx::Generators::InstallGenerator::IMPORTMAP_SETUP}"
+        )
+      end
+    end
+
+    context 'when `application.js` does not exists' do
+      it 'creates `application.js` file with htmx require' do
+        run_generator
+        assert_file(
+          'app/javascript/application.js',
+          Htmx::Generators::InstallGenerator::IMPORTMAP_SETUP
+        )
+      end
+    end
+  end
+
   context 'with no asset pipeline' do
     before do
       hide_const('Webpacker')
