@@ -151,7 +151,7 @@ RSpec.describe Htmx::Generators::InstallGenerator do
     end
 
     it 'raise an error' do
-      expect { run_generator }.to raise_error('No known asset pipeline detected')
+      expect { run_generator }.to raise_error('No known asset pipeline detected.')
     end
   end
 end
