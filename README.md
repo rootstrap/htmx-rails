@@ -4,23 +4,31 @@
 
 ## Installation
 
+### Gem installation
+
 Add `htmx-rails` to your `Gemfile`:
 
 ```ruby
 gem 'htmx-rails'
 ```
 
-And then execute:
+And then execute in your shell:
 
-    $ bundle install
+```
+bundle install
+```
 
-Or install it yourself as:
+Or install it yourself by executing:
 
-    $ gem install htmx-rails
+```
+gem install htmx-rails
+```
 
-After installing the gem, run the installer:
+### After installing the gem, run the installer:
 
-    $ rails g htmx:install
+```
+rails g htmx:install
+```
 
 ## Usage
 
